@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>系统页面</title>
+		<link rel="stylesheet" href='../static/css/sym.css'>
+		<script type="text/javascript">
+			function chengeCity(){
+				var proEle=document.getElementById('provinces').value;
+				var wjmEle=document.getElementById('wjm');
+				var wjm1Ele=document.getElementById('wjm1');
+				var wjm2Ele=document.getElementById('wjm2');
+				wjmEle.value=proEle;
+				wjm1Ele.value=proEle;
+				wjm2Ele.value=proEle;
+			};
+			function chengeCity1(){
+				var PEle=document.getElementById('provinces1').value;
+				var wjmEle=document.getElementById('wjm');
+				var wjm1Ele=document.getElementById('wjm1');
+				var wjm2Ele=document.getElementById('wjm2');
+				wjmEle.value=PEle;
+				wjm1Ele.value=PEle;
+				wjm2Ele.value=PEle;
+			};
+		</script>
+	</head>
+	<body>
+		<div class='d1'>
+			<div class='d1a'>
+				<h2>首页面</h2>
+				<p id='p1'>用户：
+					<a href='##' id='a1'>{{uname}}</a>
+				</p>
+				<p><a href="/login/" id='a2'>退出用户</a></p>
+			</div>
+			<div class='d1b'>
+				<div class='d1b1'>
+					<h3>个人文件信息</h3>
+					<p>我的文件</p>
+					<select name='provinces' id='provinces' onchange='chengeCity()'>
+						<option>已上传文件</option>
+						{% for i in L %}
+						<option>{{i.wenjian}}</option>
+						{% endfor %}
+					</select>
+					<br>
+					<p>别人共享给我的文件</p>
+					<select name='provinces1' id='provinces1' onchange='chengeCity1()'>
+						<option>共享给我的文件</option>
+						{% for x in L1 %}
+						<option>{{x.wenjian}}</option>
+						{% endfor %}
+					</select>
+				</div>
+				<div class='d1b2'>
+					<div class='d1b2a'>
+						<form method="post" action="/shangchuan/" enctype="multipart/form-data">
+							{% csrf_token %}
+							<h3>文件上传</h3>
+							<input type="hidden" name="uname" value={{uname}}>
+							<input type="file" name="myfile" id='input1'>
+							<input type="submit" value="确认上传" id='input2'>
+							<p>{{a}}</p>
+						</form>
+					</div>
+					<div class='d1b2b'>
+						<form method='post' action='/gongxiang/'>
+							{% csrf_token %}
+							<h3>文件共享</h3>
+							<input type="hidden" name="uname" value={{uname}}>
+							<input type="text" name="wjm" id='wjm' class='gxinput'>
+							共享给用户:<input type="text" name="yonghu">
+							<input type="submit" value='确认共享'>
+							<p>{{b}}</p>
+						</form>
+					</div>
+					<div class='d1b2c'>
+						<form method='post' action='/dakai/'>
+							{% csrf_token %}
+							<h3>打开文件</h3>
+							<input type="hidden" name="uname" value={{uname}}>
+							<input type="text" name="wjm" id='wjm1' class='dkinput'>
+							<input type="submit" value='确认打开'>
+							<p>{{c}}</p>
+						</form>
+					</div>
+					<div class='d1b2d'>
+						<form method='post' action='/xiazai/'>
+							{% csrf_token %}
+							<h3>下载文件</h3>
+							<input type="hidden" name="uname" value={{uname}}>
+							<input type="text" name="wjm" id='wjm2' class='xzinput'>
+							<input type="submit" value='确认下载'>
+							<p>{{d}}</p>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

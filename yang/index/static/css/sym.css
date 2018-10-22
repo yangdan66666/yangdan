@@ -1,0 +1,61 @@
+.d1{
+	width:1000px;
+	height:600px;
+}
+.d1a{
+	width:1000px;
+	height:100px;
+}
+.d1b{
+	width:1000px;
+	height:500px;
+}
+.d1b1{
+	height:500px;
+	width:300px;
+	float:left;
+}
+.d1b2{
+	width:700px;
+	height:500px;
+	margin-left:300px;
+}
+h2{
+	float:left;
+	margin-left:50px;
+	color:#0000C6;
+}
+#p1{
+	color:#0000C6;
+	margin-left:800px;
+	margin-top:20px;
+}
+#a1{
+	text-decoration:none;
+}
+#a2{
+	text-decoration:none;
+	margin-left:730px;
+}
+#provinces{
+	margin-left:50px;
+}
+#provinces1{
+	margin-left:50px;
+}
+.gxinput{
+	border:none;
+	outline:medium;
+}
+.dkinput{
+	border:none;
+	outline:medium;
+}
+.xzinput{
+	border:none;
+	outline:medium;
+}
+.xzinput1{
+	border:none;
+	outline:medium;
+}

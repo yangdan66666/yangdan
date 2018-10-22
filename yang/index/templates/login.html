@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>用户登录</title>
+		<link rel="stylesheet" href='../static/css/login.css'>
+	</head>
+	<body>
+		<!--页面顶部内容-->
+		<h2>欢迎进入登录</h2>
+		<p>{{a}}</p>
+		<p>{{b}}</p>
+		<p>{{c}}</p>
+		<div class='ds1'>
+			<form action="/login/" method="post">
+				{% csrf_token %}
+				<div class='d1'>
+					<!--用户名称-->
+					<div class='d1a'>
+						<p class='p1'>用户名称</p>
+						<input id='input1' type="text" name="uname" placeholder='6~14位字符' maxlength=14>
+					</div>
+					<!--用户密码-->
+					<div class='d2a'>
+						<p class='p2'>用户密码</p>
+						<input id='input2' type="password" name="upwd" placeholder='6~18位字符' maxlength=18>
+					</div>
+					<!--用户注册-->
+					<a href="../register" id='a2'>新用户注册</a>
+					<!--登录-->
+					<input type="submit" value='登录' class='input3'>
+				</div>
+			</form>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>用户注册</title>
+		<link rel="stylesheet" href='../static/css/register.css'>
+		<script src="../static/js/register.js"></script>
+	</head>
+	<body>
+		<!--页面顶部内容-->
+		<h2>新用户注册</h2>
+		<p>{{a}}</p>
+		<form action="/register/" method="post" onsubmit='return validateForm()'>
+			{% csrf_token %}
+			<div class='d1'>
+					<!--用户名称-->
+					<div class='d1a'>
+						<p class='p1'>用户名称</p>
+						<input id='input1' type="text" name="uname" placeholder='6~14位字符' maxlength=14>
+					</div class='d2a'>
+					<!--用户密码-->
+					<div class='d2a'>
+						<p class='p2'>用户密码</p>
+						<input id='input2' type="password" name="upwd" placeholder='8~18位字符' maxlength=18>
+					</div>
+					<div class='d3a'>
+						<p class='p3'>确认密码</p>
+						<input id='input3' type="password" name="upwd1" placeholder="8~18位字符" maxlength=18>
+					</div>
+					<a href="/login/" id='a1'>返回登陆</a>
+					<input type="submit" value='确认注册' id='input4'>
+				</div>
+		</form>
+	</body>
+</html>
