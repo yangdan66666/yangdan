@@ -13,8 +13,8 @@ class wenjian(models.Model):
 	#文件名
 	wenjian = models.CharField(max_length=20)
 	#文件路径
-	lujing = models.CharField(max_length=50)
+	lujing = models.CharField(max_length=60)
 	#上传用户
 	uname = models.CharField(max_length=14)
 	#共享给的用户
-	gxname = models.CharField(max_length=14)
+	gxname = models.CharField(max_length=1)

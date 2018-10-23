@@ -19,8 +19,8 @@ def login_views(request):
 			#登陆成功
 			elif uList[0].isActive is True:
 				#查询数据库wenjian表将用户名为uname的相关数据列表传输给浏览器
-				L = wenjian.objects.filter(uname=uname)
-				L1 = wenjian.objects.filter(gxname=uname)
+				L = wenjian.objects.filter(uname=uname,gxname='')
+				L1 = wenjian.objects.filter(uname=uname,gxname='1')
 				return render(request,'sym.html',locals())
 		#登陆失败
 		else:
@@ -54,14 +54,14 @@ def register_views(request):
 				b='注册成功！'
 				return render(request,'login.html',locals())
 
-def shangchuan_views(request):
+def upload_views(request):
 	# 请求方法为POST时,进行处理;
 	if request.method == "POST":
 		# 获取上传的用户名称
 		uname = request.POST['uname']
 		#查询wenjian表中与用户为登陆用户的一直到文件数据
-		L = wenjian.objects.filter(uname=uname)
-		L1 = wenjian.objects.filter(gxname=uname)
+		L = wenjian.objects.filter(uname=uname,gxname='')
+		L1 = wenjian.objects.filter(uname=uname,gxname='1')
 		# 获取上传的文件,如果没有文件,则默认为None;
 		File = request.FILES.get("myfile", None)
 		if File is None:
@@ -91,41 +91,62 @@ def shangchuan_views(request):
 				return render(request,'sym.html',locals())
 
 
-def gongxiang_views(request):
+def share_views(request):
 	if request.method == "POST":
 		uname=request.POST['uname']
 		wjm=request.POST['wjm']
 		yonghu=request.POST['yonghu']
 		uList = Users.objects.filter(uname=yonghu)
 		#获取uname用户的文件信息数据返回页面
-		L = wenjian.objects.filter(uname=uname)
-		L1 = wenjian.objects.filter(gxname=uname)
+		L = wenjian.objects.filter(uname=uname,gxname='')
+		L1 = wenjian.objects.filter(uname=uname,gxname='1')
 		if uList:
 			if wjm=='' or wjm=='已上传文件' or wjm=='共享给我的文件':
 				b='请选择要共享的文件'
 				return render(request,'sym.html',locals())
 			else:
-				s=wenjian.objects.get(uname=uname,wenjian=wjm)
-				s.gxname=yonghu
-				s.save()
-				b='共享成功!'
-				return render(request,'sym.html',locals())
+				try:
+					ul=wenjian.objects.get(wenjian=wjm,uname=uname,gxname='')
+					ul1=wenjian.objects.filter(wenjian=wjm,uname=yonghu,lujing=ul.lujing)
+					if ul1:
+						b='%s'%yonghu+'已拥有'+'%s'%wjm
+						return render(request,'sym.html',locals())
+					else:
+						dic={
+							'wenjian':ul.wenjian,'lujing':ul.lujing,'uname':yonghu,'gxname':'1'
+						}
+						wenjian(**dic).save()
+						b='共享成功！'
+						return render(request,'sym.html',locals())
+				except:
+					ull=wenjian.objects.get(wenjian=wjm,uname=uname,gxname='1')
+					ull1=wenjian.objects.filter(wenjian=wjm,uname=yonghu,lujing=ull.lujing)
+					if ull1:
+						b='%s'%yonghu+'已拥有'+'%s'%wjm
+						return render(request,'sym.html',locals())
+					else:
+						dic1={
+							'wenjian':ull.wenjian,'lujing':ull.lujing,'uname':yonghu,'gxname':'1'
+						}
+						wenjian(**dic1).save()
+						b='共享成功！'
+						return render(request,'sym.html',locals())
 		else:
 			b='%s不存在此用户!'%yonghu
 			return render(request,'sym.html',locals())
 
 
-def dakai_views(request):
+def open_views(request):
 	if request.method=='POST':
 		uname=request.POST['uname']
 		wjm=request.POST['wjm']
-		L = wenjian.objects.filter(uname=uname)
-		L1 = wenjian.objects.filter(gxname=uname)
+		L = wenjian.objects.filter(uname=uname,gxname='')
+		L1 = wenjian.objects.filter(uname=uname,gxname='1')
 		if wjm=='' or wjm=='已上传文件' or wjm=='共享给我的文件':
 			c='请选择要打开的文件'
 			return render(request,'sym.html',locals())
 		try:
-			x=wenjian.objects.get(uname=uname,wenjian=wjm)
+			x=wenjian.objects.get(uname=uname,wenjian=wjm,gxname='')
 			f=open(x.lujing,'rb')
 			if os.path.splitext(x.lujing)[1]=='.bmp' or os.path.splitext(x.lujing)[1]=='.jif'\
 			 or os.path.splitext(x.lujing)[1]=='.jpg' or os.path.splitext(x.lujing)[1]=='.png':
@@ -133,7 +154,7 @@ def dakai_views(request):
 			else:
 				return StreamingHttpResponse(f)
 		except:
-			y=wenjian.objects.get(gxname=uname,wenjian=wjm)
+			y=wenjian.objects.get(uname=uname,wenjian=wjm,gxname='1')
 			f00=open(y.lujing,'rb')
 			if os.path.splitext(y.lujing)[1]=='.bmp' or os.path.splitext(y.lujing)[1]=='.jif' or\
 			 os.path.splitext(y.lujing)[1]=='.jpg' or os.path.splitext(y.lujing)[1]=='.png':
@@ -141,26 +162,26 @@ def dakai_views(request):
 			else:
 				return StreamingHttpResponse(f00)
 
-def xiazai_views(request):
+def download_views(request):
 	if request.method=='POST':
 		uname=request.POST['uname']
 		wjm=request.POST['wjm']
-		L = wenjian.objects.filter(uname=uname)
-		L1 = wenjian.objects.filter(gxname=uname)
+		L = wenjian.objects.filter(uname=uname,gxname='')
+		L1 = wenjian.objects.filter(uname=uname,gxname='1')
 		if wjm=='' or wjm=='已上传文件' or wjm=='共享给我的文件':
 			d='请选择要下载的文件'
 			return render(request,'sym.html',locals())
 		try:
-			x=wenjian.objects.get(uname=uname,wenjian=wjm)
+			x=wenjian.objects.get(uname=uname,wenjian=wjm,gxname='')
 			file=open(x.lujing,'rb')
 			response=StreamingHttpResponse(file)
 			response['Content-Type']='application/octet-stream'
-			response['Content-Disposition']='attachment;filename="%s"'%wjm
+			response['Content-Disposition']='attachment;filename='+x.wenjian
 			return response
 		except:
-			y=wenjian.objects.get(gxname=uname,wenjian=wjm)
+			y=wenjian.objects.get(uname=uname,wenjian=wjm,gxname='1')
 			file1=open(y.lujing,'rb')
 			response=StreamingHttpResponse(file1)
 			response['Content-Type']='application/octet-stream'
-			response['Content-Disposition']='attachment;filename="%s"'%wjm
+			response['Content-Disposition']='attachment;filename='+wjm
 			return response

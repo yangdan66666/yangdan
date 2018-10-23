@@ -55,7 +55,7 @@
 				</div>
 				<div class='d1b2'>
 					<div class='d1b2a'>
-						<form method="post" action="/shangchuan/" enctype="multipart/form-data">
+						<form method="post" action="/upload/" enctype="multipart/form-data">
 							{% csrf_token %}
 							<h3>文件上传</h3>
 							<input type="hidden" name="uname" value={{uname}}>
@@ -65,7 +65,7 @@
 						</form>
 					</div>
 					<div class='d1b2b'>
-						<form method='post' action='/gongxiang/'>
+						<form method='post' action='/share/'>
 							{% csrf_token %}
 							<h3>文件共享</h3>
 							<input type="hidden" name="uname" value={{uname}}>
@@ -76,7 +76,7 @@
 						</form>
 					</div>
 					<div class='d1b2c'>
-						<form method='post' action='/dakai/'>
+						<form method='post' action='/open/'>
 							{% csrf_token %}
 							<h3>打开文件</h3>
 							<input type="hidden" name="uname" value={{uname}}>
@@ -86,7 +86,7 @@
 						</form>
 					</div>
 					<div class='d1b2d'>
-						<form method='post' action='/xiazai/'>
+						<form method='post' action='/download/'>
 							{% csrf_token %}
 							<h3>下载文件</h3>
 							<input type="hidden" name="uname" value={{uname}}>

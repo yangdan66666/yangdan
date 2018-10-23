@@ -19,4 +19,14 @@ class Migration(migrations.Migration):
                 ('isActive', models.BooleanField(default=True)),
             ],
         ),
+        migrations.CreateModel(
+            name='wenjian',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', primary_key=True, serialize=False, auto_created=True)),
+                ('wenjian', models.CharField(max_length=20)),
+                ('lujing', models.CharField(max_length=60)),
+                ('uname', models.CharField(max_length=14)),
+                ('gxname', models.CharField(max_length=1)),
+            ],
+        ),
     ]
